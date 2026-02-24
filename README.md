@@ -1,4 +1,4 @@
-# @hubbardfam/beacon-login
+# @zap-simon/beacon-login
 
 Pre-styled, beacon-backed login system for Next.js applications. Ships a dark terminal-aesthetic login UI and server-side auth helpers that authenticate against the hubbardfam beacon hub.
 
@@ -14,13 +14,9 @@ Pre-styled, beacon-backed login system for Next.js applications. Ships a dark te
 ## Installation
 
 ```bash
-npm install @hubbardfam/beacon-login
-```
-
-Requires `.npmrc` in your project root:
-
-```
-@hubbardfam:registry=https://npm.pkg.github.com
+npm config set @zap-simon:registry https://npm.pkg.github.com
+npm login --registry=https://npm.pkg.github.com
+npm install @zap-simon/beacon-login
 ```
 
 ## Quick Start
@@ -36,9 +32,9 @@ JWT_SECRET=your-shared-jwt-secret
 
 ```tsx
 // app/login/page.tsx
-import { BeaconLoginPage } from "@hubbardfam/beacon-login";
+import { BeaconLoginPage } from "@zap-simon/beacon-login";
 import { loginAction } from "./actions";
-import "@hubbardfam/beacon-login/styles.css";
+import "@zap-simon/beacon-login/styles.css";
 
 export const metadata = { title: "Login" };
 
@@ -63,7 +59,7 @@ export default function LoginPage() {
 import {
   createBeaconAuthAction,
   createLogoutAction,
-} from "@hubbardfam/beacon-login/server";
+} from "@zap-simon/beacon-login/server";
 
 export const loginAction = createBeaconAuthAction({
   beaconUrl: process.env.BEACON_API_URL!,
@@ -76,7 +72,7 @@ export const logoutAction = createLogoutAction();
 
 ```tsx
 // middleware.ts
-import { createBeaconMiddleware } from "@hubbardfam/beacon-login/server";
+import { createBeaconMiddleware } from "@zap-simon/beacon-login/server";
 
 export const middleware = createBeaconMiddleware({
   jwtSecret: process.env.JWT_SECRET!,
@@ -166,7 +162,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ### CSS Custom Properties
 
-Import `@hubbardfam/beacon-login/styles.css` to activate:
+Import `@zap-simon/beacon-login/styles.css` to activate:
 
 | Variable | Value | Purpose |
 |----------|-------|---------|
@@ -193,4 +189,4 @@ The beacon hub must:
 
 ## License
 
-UNLICENSED — Private package for hubbardfam infrastructure.
+UNLICENSED — Private package for zap-simon infrastructure.

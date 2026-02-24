@@ -1,0 +1,64 @@
+/* ── @hubbardfam/beacon-login — Design Tokens ────────────────────
+ * Dark-first terminal aesthetic from the hubbardfam dashboard.
+ * Import this file once in your app to activate the login theme:
+ *
+ *   import "@hubbardfam/beacon-login/styles.css";
+ *
+ * Tokens are prefixed with `beacon-` to avoid collisions with
+ * the consuming site's own design system.
+ *
+ * Font note: Components use `font-mono` which maps to
+ * --font-beacon-mono. Set this CSS var to your preferred
+ * monospace font (Geist Mono recommended). If unset, falls
+ * back to the system monospace stack.
+ * ───────────────────────────────────────────────────────────── */
+
+/* ── Custom properties ──────────────────────────────────────── */
+
+:root {
+  --beacon-background: #050505;
+  --beacon-foreground: #ffffff;
+  --beacon-surface: #121212;
+  --beacon-surface-2: #1b1b1b;
+  --beacon-border: #444444;
+  --beacon-muted: #9f9f9f;
+  --beacon-muted-strong: #d4d4d4;
+  --beacon-accent: #ff8a2a;
+  --beacon-danger: #ff7130;
+  --beacon-grid: #151515;
+
+  /* Font — consuming sites should set --font-beacon-mono via
+     next/font or @font-face. Falls back to system monospace. */
+  --font-beacon-mono: ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* ── Tailwind v4 @theme inline mapping ──────────────────────── */
+
+@theme inline {
+  --color-beacon-background: var(--beacon-background);
+  --color-beacon-foreground: var(--beacon-foreground);
+  --color-beacon-surface: var(--beacon-surface);
+  --color-beacon-surface-2: var(--beacon-surface-2);
+  --color-beacon-border: var(--beacon-border);
+  --color-beacon-muted: var(--beacon-muted);
+  --color-beacon-muted-strong: var(--beacon-muted-strong);
+  --color-beacon-accent: var(--beacon-accent);
+  --color-beacon-danger: var(--beacon-danger);
+  --font-beacon-mono: var(--font-beacon-mono);
+}
+
+/* ── Component classes ──────────────────────────────────────── */
+
+.beacon-panel {
+  border-radius: 0.5rem;
+  border: 1px solid var(--beacon-border);
+  background: var(--beacon-surface);
+  padding: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .beacon-panel {
+    padding: 1rem;
+  }
+}

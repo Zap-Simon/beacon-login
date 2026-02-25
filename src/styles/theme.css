@@ -1,8 +1,8 @@
-/* ── @hubbardfam/beacon-login — Design Tokens ────────────────────
- * Dark-first terminal aesthetic from the hubbardfam dashboard.
+/* ── @zap-simon/beacon-login — Design Tokens ────────────────────
+ * Dark-first terminal aesthetic for beacon-backed dashboards.
  * Import this file once in your app to activate the login theme:
  *
- *   import "@hubbardfam/beacon-login/styles.css";
+ *   import "@zap-simon/beacon-login/styles.css";
  *
  * Tokens are prefixed with `beacon-` to avoid collisions with
  * the consuming site's own design system.

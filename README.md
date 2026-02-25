@@ -1,95 +1,68 @@
 # @zap-simon/beacon-login
 
-Pre-styled, beacon-backed login system for Next.js applications. Ships a dark terminal-aesthetic login UI and server-side auth helpers that authenticate against the hubbardfam beacon hub.
+Pre-styled login UI components for React / Next.js that work with the beacon auth system.
 
-## Features
-
-- **`<BeaconLoginForm />`** — Styled password form (React 19 `useActionState`)
-- **`<BeaconLoginPage />`** — Full-page centered login layout with customisable branding
-- **`createBeaconAuthAction()`** — Server action factory that authenticates via beacon's `/auth/login`
-- **`createBeaconMiddleware()`** — Edge-compatible middleware that verifies JWTs offline
-- **Design tokens** — Dark-first CSS custom properties + Tailwind v4 `@theme` mapping
-- **Centralised security** — Failed login events logged by the beacon automatically
+> **Frontend package** — for the Fastify auth backend, see [`@zap-simon/beacon-auth`](https://github.com/zap-simon/beacon-auth).
 
 ## Installation
 
 ```bash
-npm config set @zap-simon:registry https://npm.pkg.github.com
-npm login --registry=https://npm.pkg.github.com
 npm install @zap-simon/beacon-login
 ```
 
+## Features
+
+- **`<BeaconLoginForm />`** — Styled password form (React 19 `useActionState` or fetch mode)
+- **`<BeaconLoginPage />`** — Full-page centered login layout with customisable branding
+- **Design tokens** — Dark-first CSS custom properties + Tailwind v4 `@theme` mapping
+- **Two modes** — Works with Next.js server actions _or_ direct fetch to a backend API
+
 ## Quick Start
 
-### 1. Environment Variables
+### Fetch Mode (microservices — recommended)
 
-```env
-BEACON_API_URL=https://your-beacon-url.internal:3001
-JWT_SECRET=your-shared-jwt-secret
-```
-
-### 2. Login Page
+The form posts JSON to your auth microservice. The backend handles beacon communication and sets an HttpOnly cookie.
 
 ```tsx
-// app/login/page.tsx
-import { BeaconLoginPage } from "@zap-simon/beacon-login";
-import { loginAction } from "./actions";
-import "@zap-simon/beacon-login/styles.css";
+"use client";
 
-export const metadata = { title: "Login" };
+import { BeaconLoginPage } from "@zap-simon/beacon-login";
+import "@zap-simon/beacon-login/styles.css";
 
 export default function LoginPage() {
   return (
     <BeaconLoginPage
-      action={loginAction}
+      loginUrl="https://your-auth-service.internal/auth/login"
+      onSuccess={() => (window.location.href = "/")}
       title="My Application"
-      subtitle="Enter password to continue"
-      footer="powered by hubbardfam-beacon"
     />
   );
 }
 ```
 
-### 3. Server Actions
+### Server Action Mode (Next.js monolith)
+
+If your Next.js app talks directly to the beacon (no separate auth service):
 
 ```tsx
-// app/login/actions.ts
-"use server";
+import { BeaconLoginPage } from "@zap-simon/beacon-login";
+import { loginAction } from "./actions";
+import "@zap-simon/beacon-login/styles.css";
 
-import {
-  createBeaconAuthAction,
-  createLogoutAction,
-} from "@zap-simon/beacon-login/server";
-
-export const loginAction = createBeaconAuthAction({
-  beaconUrl: process.env.BEACON_API_URL!,
-});
-
-export const logoutAction = createLogoutAction();
+export default function LoginPage() {
+  return <BeaconLoginPage action={loginAction} title="My Application" />;
+}
 ```
 
-### 4. Middleware
+### Styles
 
 ```tsx
-// middleware.ts
-import { createBeaconMiddleware } from "@zap-simon/beacon-login/server";
-
-export const middleware = createBeaconMiddleware({
-  jwtSecret: process.env.JWT_SECRET!,
-  publicPaths: ["/login", "/api/heartbeat"],
-});
-
-export const config = {
-  matcher: [
-    "/((?!_next|favicon\\.ico|icon|apple-icon|manifest).*)",
-  ],
-};
+import "@zap-simon/beacon-login/styles.css";
 ```
 
-### 5. Fonts (optional but recommended)
+### Fonts (optional)
 
 ```tsx
-// app/layout.tsx
 import { Geist_Mono } from "next/font/google";
 
 const geistMono = Geist_Mono({
@@ -97,7 +70,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={geistMono.variable}>{children}</body>
@@ -106,86 +79,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-## API Reference
+## API
 
-### Components
-
-#### `<BeaconLoginForm />`
+### `<BeaconLoginForm />`
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `action` | `LoginAction` | **required** | React 19 form action |
+| `action` | `LoginAction` | — | React 19 server action (action mode) |
+| `loginUrl` | `string` | — | Auth service URL (fetch mode) |
+| `onSuccess` | `() => void` | — | Called after successful fetch login |
+| `username` | `string` | `"dashboard"` | Username sent in fetch body |
 | `placeholder` | `string` | `"••••••••"` | Input placeholder |
 | `submitLabel` | `string` | `"Enter"` | Button text |
 | `loadingLabel` | `string` | `"Verifying…"` | Button text while loading |
 
-#### `<BeaconLoginPage />`
+Provide either `action` (server action mode) or `loginUrl` (fetch mode) — not both.
+
+### `<BeaconLoginPage />`
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `action` | `LoginAction` | **required** | React 19 form action |
+| `action` / `loginUrl` | — | — | Same as form (determines mode) |
 | `title` | `string` | `"Dashboard"` | Heading text |
-| `subtitle` | `string` | `"Enter password to continue"` | Subheading text |
-| `footer` | `string` | `"hubbardfam-beacon"` | Footer text |
-| `formProps` | `Omit<BeaconLoginFormProps, "action">` | — | Pass-through to form |
-
-### Server Helpers
-
-#### `createBeaconAuthAction(options)`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `beaconUrl` | `string` | **required** | Beacon hub URL |
-| `loginPath` | `string` | `"/auth/login"` | Auth endpoint path |
-| `username` | `string` | `"dashboard"` | Username sent to beacon |
-| `cookieName` | `string` | `"beacon_session"` | JWT cookie name |
-| `cookieMaxAge` | `number` | `604800` | Cookie lifetime (seconds) |
-| `redirectTo` | `string` | `"/"` | Post-login redirect |
-| `source` | `string` | — | Frontend identifier for audit trail |
-
-#### `createBeaconMiddleware(options)`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `jwtSecret` | `string` | **required** | JWT signing secret |
-| `cookieName` | `string` | `"beacon_session"` | Cookie name |
-| `loginPath` | `string` | `"/login"` | Redirect target |
-| `publicPaths` | `string[]` | `["/login"]` | Paths that skip auth |
-| `disabled` | `boolean` | `false` | Disable the gate entirely |
-
-#### `createLogoutAction(options?)`
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `cookieName` | `string` | `"beacon_session"` | Cookie name |
-| `redirectTo` | `string` | `"/login"` | Post-logout redirect |
+| `subtitle` | `string` | `"Enter password to continue"` | Subheading |
+| `footer` | `string` | `"beacon"` | Footer text |
+| `formProps` | `object` | — | Pass-through to the form |
 
 ### CSS Custom Properties
-
-Import `@zap-simon/beacon-login/styles.css` to activate:
 
 | Variable | Value | Purpose |
 |----------|-------|---------|
 | `--beacon-background` | `#050505` | Page background |
 | `--beacon-foreground` | `#ffffff` | Primary text |
-| `--beacon-surface` | `#121212` | Card/panel background |
-| `--beacon-surface-2` | `#1b1b1b` | Input/secondary surface |
+| `--beacon-surface` | `#121212` | Card background |
+| `--beacon-surface-2` | `#1b1b1b` | Input background |
 | `--beacon-border` | `#444444` | Borders |
-| `--beacon-muted` | `#9f9f9f` | Placeholder/dim text |
-| `--beacon-muted-strong` | `#d4d4d4` | Labels/secondary text |
-| `--beacon-accent` | `#ff8a2a` | Orange accent (buttons, focus) |
+| `--beacon-muted` | `#9f9f9f` | Dim text |
+| `--beacon-muted-strong` | `#d4d4d4` | Labels |
+| `--beacon-accent` | `#ff8a2a` | Buttons, focus rings |
 | `--beacon-danger` | `#ff7130` | Error messages |
 
-Override any variable in your own CSS to customise the theme.
-
-## Beacon Requirements
-
-The beacon hub must:
-
-1. Expose `POST /auth/login` accepting `{ username, password }` and returning `{ auth: { token, expiresIn } }`
-2. Sign JWTs with HMAC-SHA256 using the same secret shared via `JWT_SECRET`
-3. Include `exp` (Unix timestamp) in the JWT payload
-4. Log failed login attempts as security events internally
+Override any variable in your own CSS to customise.
 
 ## License
 

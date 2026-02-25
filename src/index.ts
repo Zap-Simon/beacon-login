@@ -1,16 +1,25 @@
-/* ── @hubbardfam/beacon-login ─────────────────────────────────
- * Public exports — client-side components.
+/* ── @zap-simon/beacon-login ──────────────────────────────────
+ * Public exports — client-side login components.
  *
- * For server helpers, import from "@hubbardfam/beacon-login/server".
- * For styles, import "@hubbardfam/beacon-login/styles.css".
+ * For styles, import "@zap-simon/beacon-login/styles.css".
+ * For backend auth, use "@zap-simon/beacon-auth" in your
+ * Fastify microservice.
  * ───────────────────────────────────────────────────────────── */
 
 export { BeaconLoginForm } from "./components/BeaconLoginForm";
 export type {
   BeaconLoginFormProps,
+  BeaconLoginFormActionProps,
+  BeaconLoginFormFetchProps,
+  BeaconLoginFormBaseProps,
   LoginAction,
   LoginActionState,
 } from "./components/BeaconLoginForm";
 
 export { BeaconLoginPage } from "./components/BeaconLoginPage";
-export type { BeaconLoginPageProps } from "./components/BeaconLoginPage";
+export type {
+  BeaconLoginPageProps,
+  BeaconLoginPageActionProps,
+  BeaconLoginPageFetchProps,
+  BeaconLoginPageBaseProps,
+} from "./components/BeaconLoginPage";

@@ -1,3 +1,24 @@
 node_modules/
 dist/
 *.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+
+# npm/yarn/pnpm logs and lockfiles (lockfile tracking is optional)
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and macOS
+.DS_Store
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Local project config
+.npmrc
+

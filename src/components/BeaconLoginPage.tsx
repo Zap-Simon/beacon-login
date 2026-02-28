@@ -90,7 +90,7 @@ export function BeaconLoginPage(props: BeaconLoginPageProps) {
     <div className="flex min-h-screen items-center justify-center bg-beacon-background px-4">
       <div className="w-full max-w-sm">
         {/* ── Branding ─────────────────────────────────── */}
-        <div className="mb-10 text-center">
+        <div className="mb-6 text-center">
           <h1 className="font-beacon-mono text-sm font-bold uppercase tracking-[0.14em] text-beacon-foreground sm:text-lg">
             {title}
           </h1>
@@ -106,7 +106,7 @@ export function BeaconLoginPage(props: BeaconLoginPageProps) {
 
         {/* ── Footer ───────────────────────────────────── */}
         {footer && (
-          <p className="mt-10 text-center font-beacon-mono text-[9px] uppercase tracking-[0.12em] text-beacon-muted">
+          <p className="mt-6 text-center font-beacon-mono text-[9px] uppercase tracking-[0.12em] text-beacon-muted">
             {footer}
           </p>
         )}

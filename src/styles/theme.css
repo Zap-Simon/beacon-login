@@ -95,8 +95,8 @@
 }
 
 /* Spacing utilities used in BeaconLoginPage layout */
-.mb-10 { margin-bottom: 2.5rem; }
-.mt-10 { margin-top: 2.5rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-6 { margin-top: 1.5rem; }
 
 /* Hover: submit button */
 .hover\:bg-beacon-accent\/90:hover {

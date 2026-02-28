@@ -1,6 +1,6 @@
 {
   "name": "@zap-simon/beacon-login",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Reusable beacon-backed login UI components for React / Next.js",
   "type": "module",
   "main": "./dist/index.js",

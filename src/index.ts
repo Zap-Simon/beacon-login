@@ -22,4 +22,5 @@ export type {
   BeaconLoginPageActionProps,
   BeaconLoginPageFetchProps,
   BeaconLoginPageBaseProps,
+  BeaconLoginPageText,
 } from "./components/BeaconLoginPage";

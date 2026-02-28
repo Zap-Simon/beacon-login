@@ -34,7 +34,11 @@ export default function LoginPage() {
     <BeaconLoginPage
       loginUrl="https://your-auth-service.internal/auth/login"
       onSuccess={() => (window.location.href = "/")}
-      title="My Application"
+      text={{
+        title: "My Application",
+        subtitle: "Sign in to continue",
+        footer: "internal auth",
+      }}
     />
   );
 }
@@ -100,10 +104,14 @@ Provide either `action` (server action mode) or `loginUrl` (fetch mode) — not 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `action` / `loginUrl` | — | — | Same as form (determines mode) |
-| `title` | `string` | `"Dashboard"` | Heading text |
-| `subtitle` | `string` | `"Enter password to continue"` | Subheading |
-| `footer` | `string` | `"beacon"` | Footer text |
+| `text` | `{ title?, subtitle?, footer? }` | — | Convenience object for login page copy |
+| `title` | `string` | `"Dashboard"` | Heading text (legacy/direct prop) |
+| `subtitle` | `string` | `"Enter password to continue"` | Subheading (legacy/direct prop) |
+| `footer` | `string` | `"beacon"` | Footer text (legacy/direct prop) |
 | `formProps` | `object` | — | Pass-through to the form |
+
+`text` is the easiest way to customise all page copy in one place.  
+If both are provided, `text` values take priority over `title` / `subtitle` / `footer`.
 
 ### CSS Custom Properties
 

@@ -24,6 +24,17 @@ import {
   type LoginAction,
 } from "./BeaconLoginForm";
 
+export interface BeaconLoginPageText {
+  /** Main heading above the login card. */
+  title?: string;
+
+  /** Subtitle below the heading. */
+  subtitle?: string;
+
+  /** Small footer text below the card. */
+  footer?: string;
+}
+
 export interface BeaconLoginPageBaseProps {
   /** Main heading above the login card. @default "Dashboard" */
   title?: string;
@@ -33,6 +44,12 @@ export interface BeaconLoginPageBaseProps {
 
   /** Small footer text below the card. @default "beacon" */
   footer?: string;
+
+  /**
+   * Convenience text object for branding copy.
+   * Useful when changing all login page text in one place.
+   */
+  text?: BeaconLoginPageText;
 }
 
 export interface BeaconLoginPageActionProps extends BeaconLoginPageBaseProps {
@@ -68,12 +85,11 @@ export type BeaconLoginPageProps =
   | BeaconLoginPageFetchProps;
 
 export function BeaconLoginPage(props: BeaconLoginPageProps) {
-  const {
-    title = "Dashboard",
-    subtitle = "Enter password to continue",
-    footer = "beacon",
-    formProps,
-  } = props;
+  const title = props.text?.title ?? props.title ?? "Dashboard";
+  const subtitle =
+    props.text?.subtitle ?? props.subtitle ?? "Enter password to continue";
+  const footer = props.text?.footer ?? props.footer ?? "beacon";
+  const { formProps } = props;
 
   // Build the correct form props based on mode
   const loginFormProps: BeaconLoginFormProps =

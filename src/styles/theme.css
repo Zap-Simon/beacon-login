@@ -62,3 +62,42 @@
     padding: 1rem;
   }
 }
+
+/* ── Explicit beacon-* utility classes ───────────────────────
+ * Pre-resolved so consuming apps don't need Tailwind to scan
+ * node_modules. These mirror exactly what the components use.
+ * ───────────────────────────────────────────────────────────── */
+
+/* Backgrounds */
+.bg-beacon-background  { background-color: var(--beacon-background); }
+.bg-beacon-surface     { background-color: var(--beacon-surface); }
+.bg-beacon-surface-2   { background-color: var(--beacon-surface-2); }
+.bg-beacon-accent      { background-color: var(--beacon-accent); }
+
+/* Colours */
+.text-beacon-foreground   { color: var(--beacon-foreground); }
+.text-beacon-muted        { color: var(--beacon-muted); }
+.text-beacon-muted-strong { color: var(--beacon-muted-strong); }
+.text-beacon-accent       { color: var(--beacon-accent); }
+.text-beacon-danger       { color: var(--beacon-danger); }
+.text-beacon-background   { color: var(--beacon-background); }
+
+/* Borders */
+.border-beacon-accent  { border-color: var(--beacon-accent); }
+.border-beacon-border  { border-color: var(--beacon-border); }
+
+/* Opacity variants used in error banner */
+.border-beacon-danger\/30 {
+  border-color: color-mix(in srgb, var(--beacon-danger) 30%, transparent);
+}
+.bg-beacon-danger\/10 {
+  background-color: color-mix(in srgb, var(--beacon-danger) 10%, transparent);
+}
+
+/* Hover: submit button */
+.hover\:bg-beacon-accent\/90:hover {
+  background-color: color-mix(in srgb, var(--beacon-accent) 90%, transparent);
+}
+
+/* Font */
+.font-beacon-mono { font-family: var(--font-beacon-mono); }

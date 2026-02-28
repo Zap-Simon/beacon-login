@@ -106,7 +106,7 @@ export function BeaconLoginPage(props: BeaconLoginPageProps) {
 
         {/* ── Footer ───────────────────────────────────── */}
         {footer && (
-          <p className="text-center font-beacon-mono text-[9px] uppercase tracking-[0.12em] text-beacon-muted">
+          <p className="mt-10 text-center font-beacon-mono text-[9px] uppercase tracking-[0.12em] text-beacon-muted">
             {footer}
           </p>
         )}

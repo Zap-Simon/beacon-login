@@ -38,6 +38,9 @@ export interface BeaconLoginFormBaseProps {
   /** Placeholder text for the password input. @default "••••••••" */
   placeholder?: string;
 
+  /** Label above the password input. @default "Password" */
+  passwordLabel?: string;
+
   /** Submit button label. @default "Enter" */
   submitLabel?: string;
 
@@ -118,9 +121,11 @@ function ErrorBanner({ message }: { message: string }) {
 function PasswordInput({
   inputRef,
   placeholder,
+  label = "Password",
 }: {
   inputRef: React.RefObject<HTMLInputElement | null>;
   placeholder: string;
+  label?: string;
 }) {
   return (
     <div className="space-y-1.5">
@@ -128,7 +133,7 @@ function PasswordInput({
         htmlFor="beacon-password"
         className="font-beacon-mono text-[11px] uppercase tracking-[0.12em] text-beacon-muted-strong"
       >
-        Password
+        {label}
       </label>
       <input
         ref={inputRef}
@@ -159,6 +164,7 @@ function useDesktopAutofocus(ref: React.RefObject<HTMLInputElement | null>) {
 function ActionForm({
   action,
   placeholder = "••••••••",
+  passwordLabel,
   submitLabel,
   loadingLabel,
 }: BeaconLoginFormActionProps) {
@@ -168,7 +174,7 @@ function ActionForm({
 
   return (
     <form action={formAction} className="space-y-4">
-      <PasswordInput inputRef={inputRef} placeholder={placeholder} />
+      <PasswordInput inputRef={inputRef} placeholder={placeholder} label={passwordLabel} />
       {state.error && <ErrorBanner message={state.error} />}
       <SubmitButton label={submitLabel} loadingLabel={loadingLabel} />
     </form>
@@ -182,6 +188,7 @@ function FetchForm({
   onSuccess,
   username = "dashboard",
   placeholder = "••••••••",
+  passwordLabel,
   submitLabel,
   loadingLabel,
 }: BeaconLoginFormFetchProps) {
@@ -238,7 +245,7 @@ function FetchForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <PasswordInput inputRef={inputRef} placeholder={placeholder} />
+      <PasswordInput inputRef={inputRef} placeholder={placeholder} label={passwordLabel} />
       {error && <ErrorBanner message={error} />}
       <SubmitButton label={submitLabel} loadingLabel={loadingLabel} pending={pending} />
     </form>

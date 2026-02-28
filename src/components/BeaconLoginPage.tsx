@@ -88,9 +88,9 @@ export function BeaconLoginPage(props: BeaconLoginPageProps) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-beacon-background px-4">
-      <div className="w-full max-w-sm space-y-10">
+      <div className="w-full max-w-sm">
         {/* ── Branding ─────────────────────────────────── */}
-        <div className="text-center">
+        <div className="mb-10 text-center">
           <h1 className="font-beacon-mono text-sm font-bold uppercase tracking-[0.14em] text-beacon-foreground sm:text-lg">
             {title}
           </h1>
